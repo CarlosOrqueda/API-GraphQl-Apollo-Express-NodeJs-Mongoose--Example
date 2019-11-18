@@ -1,0 +1,67 @@
+# * Seguramente vera que se podria contruir de una manera mas simple, pero de nuevo opte por claridad y pensando en que Course tenga mas campos a futuro.
+# * Lo que se ve aca es la definicion de los typos, Querys, mutation e input de las consultas de GraphQl.
+# * En types definimos el tipo de objeto a que podemos consultar con sus respectivos campos.
+# ! Dichos campos deben tener LOS MISMOS NOMBRES que los que utilizamos en los schemas de mongoose.
+# ? Hay que tener en cuenta que el campo _id no se encuentra en el schema de mongoose, sino que se crea automaticamente.
+# ? El '!', funciona de manera la misma manera que el required en el schema de mongoose, obliga a que ese campo este si o si.
+# ? En este caso Student es lo que se va a devolver en las Querys.
+# ! En este caso cree un type especial para las Mutations, ya que varia el contenido del campo courses.
+# ! Esto se debe a que al momento de crear un estudiante el campo course solo lleva el campo course(con el id) y note.
+# ! Y el objeto estudiante al devolverlo con populate() contiene el los campos course (id y name) y note.
+# ! Por lo tanto al querer devolver el objeto en las Querys y Mutations se pueden consultar campos diferentes.
+# * Las Querys funcionan de la siguiente manera (nombre de la Query) + (parametros): (type que se devuele).
+# * Las Mutations funcionan de la siguiente manera (nombre de la Mutation) + (parametros): (type que se devuele).
+# ? Los paramtros pueden ser simples campos o inputs, estos los creamos para agrupar varios campos y pasarlos todos juntos.
+# ? Las Querys y Mutations son funciones que se definen como resolvers. Dichas funciones tienen que tener el mismo nombre que su respectiva Query y Mutation.
+# ! Generalmente todos los types, Querys, Mutations, inputs y resolvers los crearia en un mismo archivo pero gracias al modulo 'merge-graphql-schemas' puedo modular todo y llamarlos desde un archivos, en este caso typeDef.js.
+# ! Debo aclarar que la creacion de distintos types e input se debe a que queremos devolver un objeto, pero en el caso de CRUD podria verse la manena de solo devolver un mensaje.
+
+type Student {
+    _id: ID!
+    firstName: String!
+    lastName: String!
+    age: Int!
+    email: String
+    average: Float
+
+    # * Relacion de uno a muchos
+    courses: [AddCourse]
+}
+
+type mutationStudent {
+    _id: ID!
+    firstName: String!
+    lastName: String!
+    age: Int!
+    email: String
+    average: Float
+
+    # * Relacion de uno a muchos
+    courses: [mutationCourse]
+}
+
+input studentInput {
+    firstName: String!
+    lastName: String!
+    age: Int!
+    email: String
+}
+
+input updateStudentInput {
+    firstName: String
+    lastName: String
+    age: Int
+    email: String
+    average: Int
+}
+
+type Query {
+    allStudent: [Student]
+    getStudent (_id: ID!): Student
+}
+
+type Mutation {
+    newStudent (input: studentInput, course: [addCourseInput] ): mutationStudent
+    updateStudent (_id: ID!, input: updateStudentInput, course: [addCourseInput] ): mutationStudent
+    deleteStudent (_id: ID!): mutationStudent
+}

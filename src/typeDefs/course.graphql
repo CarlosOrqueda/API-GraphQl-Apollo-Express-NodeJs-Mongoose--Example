@@ -1,0 +1,54 @@
+# * Seguramente vera que se podria contruir de una manera mas simple, pero de nuevo opte por claridad y pensando en que Course tenga mas campos a futuro.
+# * Lo que se ve aca es la definicion de los typos, Querys, mutation e input de las consultas de GraphQl.
+# * En types definimos el tipo de objeto a que podemos consultar con sus respectivos campos.
+# ! Dichos campos deben tener LOS MISMOS NOMBRES que los que utilizamos en los schemas de mongoose.
+# ? Hay que tener en cuenta que el campo _id no se encuentra en el schema de mongoose, sino que se crea automaticamente.
+# ? El '!', funciona de manera la misma manera que el required en el schema de mongoose, obliga a que ese campo este si o si.
+# ? En este caso Course es lo que se va a devolver en las Querys.
+# ! En este caso cree un type especial para las Mutations, ya que varia el contenido del campo courses.
+# ! Esto se debe a que al momento de crear un estudiante el campo course solo lleva el campo course(con el id) y note.
+# ! Y el objeto estudiante al devolverlo con populate() contiene el los campos course (id y name) y note.
+# ! Por lo tanto al querer devolver el objeto en las Querys y Mutations se pueden consultar campos diferentes.
+# ? Podria preguntarse porque no cree un updateCourseInput, como en student, bueno ahora mismo Course solo tiene un campo, por lo tanto puedo usar el input para crear un Course nuevo y para actualizar -> 'CourseInput'.
+# ? Pero si mas adelante se agregan mas campos, si seria viable crear un input para el update, ya que ningun campo estaria obligado a ser recibido, porque puede solo quiera actualizar solo alguno de ellos.
+# * Las Querys funcionan de la siguiente manera (nombre de la Query) + (parametros): (type que se devuele).
+# * Las Mutations funcionan de la siguiente manera (nombre de la Mutation) + (parametros): (type que se devuele).
+# ? Los paramtros pueden ser simples campos o inputs, estos los creamos para agrupar varios campos y pasarlos todos juntos.
+# ? Las Querys y Mutations son funciones que se definen como resolvers. Dichas funciones tienen que tener el mismo nombre que su respectiva Query y Mutation.
+# ! Generalmente todos los types, Querys, Mutations, inputs y resolvers los crearia en un mismo archivo pero gracias al modulo 'merge-graphql-schemas' puedo modular todo y llamarlos desde un archivos, en este caso typeDef.js.
+# ! Debo aclarar que la creacion de distintos types e input se debe a que queremos devolver un objeto, pero en el caso de CRUD podria verse la manena de solo devolver un mensaje.
+
+type Course {
+    _id: ID!
+    name: String!
+}
+
+type AddCourse {
+    course: Course
+    note: Int!
+}
+
+type mutationCourse {
+    course: ID
+    note: Int
+}
+
+input CourseInput {
+    name: String!
+}
+
+input addCourseInput {
+    name: String!
+    note: Int!
+}
+
+type Query {
+    allCourses: [Course]
+    getCourse (_id: ID!): Course
+}
+
+type Mutation {
+    newCourse ( input: CourseInput ): Course
+    updateCourse ( _id: ID!, input: CourseInput ): Course
+    deleteCourse ( _id: ID! ): Course
+}
