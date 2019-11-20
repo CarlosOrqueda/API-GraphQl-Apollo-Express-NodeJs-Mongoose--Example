@@ -63,7 +63,7 @@ DevDependencies:
  
 > **Ejemplo de como se ve:**
  
-![Capture](./img/capture.png "Capture")
+![Capture](./img/Capture.png "Capture")
  
 ---
  
@@ -71,6 +71,12 @@ DevDependencies:
  
 Como verá estamos utilizando las últimas versiones de Javascript, hasta para la parte de Nodejs, esto es más visible a la hora de recurrir a la importación de módulos. Con la versión actual de Nodejs se utiliza 'require', con una configuración de Babel y sus módulos podemos usar, por ejemplo, 'import'. Puede buscar dicha configuracion en Google, y fijarse en los archivos package.json y .babelrc, este ultimo es un archivo dedicado a la configuracion de Babel.
  
+---
+
+### MongoDB:
+
+Para poder probar el proyecto, además de inicializar el server con 'npm run dev', debe tener inicializado el servicio de MongoDB. En Windows, podría abrir otra terminal y ejecutar 'mongod'. Si utiliza otro SO deberá buscar sus respectivos comandos.
+
 ---
  
 > Para probar el ejemplo, ubicarse con el terminal en la carpeta del proyecto y ejecutar npm install
