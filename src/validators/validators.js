@@ -4,8 +4,8 @@ import Course from '../models/course';
 /* 
     * En este archivo definimos todas las funciones que se utilizaran en varios lugares.
     ? Algunas cosas a considerar:
-    ? El segundo parametro que se le pasa a la funciones find...(), es el campo que queremos utilizar, dando como resultado que la busqueda solo devuelve dicho campo.
-    * Por ultimo exportamos las funciones para que se puedan usar en cualquier lugar.
+    ? El segundo parámetro que se le pasa a la funciones find...(), es el campo que queremos utilizar, dando como resultado que la búsqueda solo devuelve dicho campo.
+    * Por último exportamos las funciones para que se puedan usar en cualquier lugar.
 */
 
 const nameCapitalized = (...names) => {

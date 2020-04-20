@@ -1,37 +1,40 @@
-import express from 'express'
+import dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import typeDefs from './typeDefs/typeDefs';
 import resolvers from './resolvers/resolvers';
 /* 
-    * Este archivo se va a encargar de la inicializacion y configuracion del servidor.
-    * Como notara esta dividido en 3 partes.
+   * Este archivo se va a encargar de la inicialización y configuración del servidor.
+    * Como notara está dividido en 3 partes.
     
-    ! Inizialization:
-        * Se inicializa express y se guarda en una constante app, tal como esta en la documentacion.
+    ! Initialization:
+        * Se inicializa express y se guarda en una constante app, tal como está en la documentación.
         * Luego se hace lo mismo con ApolloServer.
 
     ! Settings:
-        * En esta parte se setea la configuracion del servidor.
-        * Por ejemplo un motor de plantillas seteando su app.engine('ejs', engine), luego app.set('view engine') y luego configurando la direccion de la carpeta views donde se alojan las plantillas con app.set('views', path.join(__dirname, 'views')).
-        ? Notara que para determinar la direccion use path, bueno eso es un modulo que viene con nodejs, para utiliazarlo solo lo tiene que importar con import path from 'path'.
-        ? esto se utiliza ya que que en los diversos SO que existen, para determinar una direccion se utiliza '/' o '\' segun el SO.
-        * En este caso seteamos el puerto del servidor, utilizando la variable port para llamar a dicha configuracion.
-        ? process.env.PORT se utiliza para que primero se fije si hay algun puerto especificado en la variable de entorno, si no lo hay utiliza el 4000.
-        ? esto sirve para cuando sube el proyecto a algun servicio de la nube, ellos en su servidores tienen configurado un puerto en la variable del entorno.
+        * En esta parte se setea la configuración del servidor.
+        * Por ejemplo un motor de plantillas seteando su app.engine('ejs', engine), luego app.set('view engine') y luego configurando la dirección de la carpeta views donde se alojan las plantillas con app.set('views', path.join(__dirname, 'views')).
+        ? Notara que para determinar la dirección use path, bueno eso es un modulo que viene con nodejs, para utilizarlo solo lo tiene que importar con import path from 'path'.
+        ? Esto se utiliza ya que en los diversos SO que existen, para determinar una dirección se utiliza '/' o '\' según el SO.
+        * En este caso seteamos el puerto del servidor, utilizando la variable port para llamar a dicha configuración.
+        ? process.env.PORT se utiliza para que primero se fije si hay algún puerto especificado en la variable de entorno, si no lo hay utiliza el 4000.
+        ? Esto sirve para cuando se sube el proyecto a algún servicio en la nube, en el cual existe una variable de entorno del puerto.
 
     ! Middlewares:
         * Los middlewares son usados como 'filtro' antes de que se llegue al endpoint o rutas, en este caso '/graphql'.
-        * En ejemplos con REST API veras que son configurados usasndo app.use..., uno de los middlewares mas comunes es multer para la carga de imagenes.
-        ? En este ejemplo se utilizo el modulo 'apollo-sever-express' para integrarlo con express, ya que tengo pensado usar mas middlewares en el futuro.
-        ? En el caso de no utilizar ningun middleware mas que Apollo podriamos utilizar el modulo 'apollo-server', en vez de la integracion con express -> esto esta especificado en la documentacion de Apollo, mas especificamente:
-        ? utlizando solo apollo: https://www.apollographql.com/docs/apollo-server/migration-two-dot/#stand-alone
-        ? utilizando mas middlewares: https://www.apollographql.com/docs/apollo-server/migration-two-dot/#adding-additional-middleware-to-apollo-server-2
-        ? Por esta razon 'app' como parametro en applyMiddleware(), ya que estariamos pasando la instancia de express con sus middlewares aplicados. Por eso es importante aplicarlos antes de pasarlos en la funcion.
+        * En ejemplos con REST API veras que son configurados usasndo app.use..., uno de los middlewares más comunes es multer para la carga de imágenes.
+        ? En este ejemplo se utilizó el módulo 'apollo-sever-express' para integrarlo con express, ya que tengo pensado usar más middlewares en el futuro.
+        ? En el caso de no utilizar ningún middleware más que Apollo podríamos utilizar el módulo 'apollo-server', en vez de la integración con express -> esto esta especificado en la documentación de Apollo, más específicamente:
+        ? utilizando solo apollo: https://www.apollographql.com/docs/apollo-server/migration-two-dot/#stand-alone
+        ? utilizando más middlewares: https://www.apollographql.com/docs/apollo-server/migration-two-dot/#adding-additional-middleware-to-apollo-server-2
+        ? Por esta razón 'app' como parámetro en applyMiddleware(), ya que estaríamos pasando la instancia de express con sus middlewares aplicados. Por eso es importante aplicarlos antes de pasarlos en la función.
         * Antes que nada 2 aclaraciones:
         ! Si estuviese trabajando con una REST API los middlewares siempre tienen que ir antes de las rutas.
-        ! Tambien puede craer sus propios middlewares pero tendria.
+        ! También puede crear sus propios middlewares.
 
-    * Por ultimo exportamos la configuracion del servidor para utilizarla en el archivo index.js.
+    * Por último exportamos la configuración del servidor para utilizarla en el archivo index.js.
  */
 
 // * Initialization
@@ -44,7 +47,7 @@ const server = new ApolloServer({
 
 // * Settings
 
-app.set('port', process.env.PORT || 4000);
+app.set('port', process.env.PORT);
 
 // * Middleware
 
